@@ -6,14 +6,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useRouter } from 'next/navigation';
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -26,7 +22,6 @@ interface IDeliveryPartner {
   updatedAt: string;
 }
 const DeliveryPartnerPage = () => {
-  const router = useRouter();
   const [deliverypartners, setDeliverPartners] = useState<IDeliveryPartner[]>([]);
   const [form, setForm] = useState({partner_name:"", tracking_url:""});
   const [openDialog, setOpenDialog] = useState(false);
@@ -95,12 +90,13 @@ const DeliveryPartnerPage = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(form),
         });
-
         const data = await res.json();
+        if(data.success){
+          toast.success("New Delivery Partner Data Updated");
+        }
         setOpenDialog(false);
-        toast.success("New Delivery Partner Data Updated");
         } catch (error) {
-        throw new Error("Error updating category details", error.toString());
+          toast.error("Error updating category details", error.toString());
         }
       fetchDeliveryPartner();
     };

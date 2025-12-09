@@ -25,7 +25,10 @@ const SellerRequestsProcessing = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ key_id: id, status: "Approved" }),
     });
-    toast.success("Approved Request");
+    const data = await result.json();
+    if(data.success){
+      toast.success("Approved Request");
+    }
   }
 
   const handleReject = async (id: string) => {
@@ -34,7 +37,10 @@ const SellerRequestsProcessing = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ key_id: id, status: "Rejected" }),
     });
-    toast.error("Rejected Request: ");
+    const data = await result.json();
+    if(data.success){
+      toast.success("Approved Request");
+    }
   }
 
   const validKeys: (keyof ISellerRequests)[] = ["user_id", "business_name", "business_email","business_address","description","status", "createdAt"];
@@ -76,7 +82,7 @@ const SellerRequestsProcessing = () => {
       setSellers(data.data);
     }
     getSellers();
-    console.log(sellers);
+    //console.log(sellers);
   },[]);
 
   return (

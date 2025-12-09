@@ -2,8 +2,6 @@ import { ChartAreaInteractive } from '@/components/chart-area-interactive'
 import { SectionCards } from '@/components/section-cards'
 import React from 'react'
 
-import data from '../data.json';
-
 const AdminDashboardPage = () => {
   return (
     <div className="flex flex-1 flex-col">

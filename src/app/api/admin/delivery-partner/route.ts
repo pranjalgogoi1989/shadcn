@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import DeliveryPartner from "@/models/DeliveryPartner";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
+export async function GET(){
     try {
         await dbConnect();
         const data = await DeliveryPartner.find({});

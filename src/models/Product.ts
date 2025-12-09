@@ -1,6 +1,6 @@
 // models/Product.ts
 import mongoose from "mongoose";
-import Category from "./Category";
+// import Category from "./Category";
 
 
 const VariantSchema = new mongoose.Schema({

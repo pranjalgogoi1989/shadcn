@@ -3,7 +3,6 @@ import Product from "@/models/Product";
 import dbConnect from "@/lib/dbConnect";
 import { getServerSession } from "next-auth";
 
-import Category from "@/models/Category";
 
 export async function GET(req: NextRequest) {
   const limit_page_default = Number(process.env.NEXT_PUBLIC_DISPLAY_PER_PAGE);

@@ -19,6 +19,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { addDays, isBefore } from "date-fns";
+import Link from "next/link";
 
 interface Variant {
   attributes: Record<string, string>;
@@ -71,6 +72,7 @@ export default function OrderDetails() {
   const { id } = params;
   const {data:session} = useSession();
   const [orders, setOrders] = useState(null);
+  const invoiceUrl = `/api/common/invoice/${id}`;
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState([]);
@@ -107,6 +109,12 @@ export default function OrderDetails() {
       
     }
   }
+
+  const downloadInvoice = ()=>{
+
+    toast.success("Invoice Downloaded");
+  }
+
   useEffect(() => {
     if(id){
       fetchOrder();
@@ -300,7 +308,7 @@ export default function OrderDetails() {
                         <Separator />
                         <div className="flex">
                           <div className="flex-1 text-sm text-muted-foreground">
-                            Invoice: <strong><a href={item.trackingVia.invoiceUrl} target="_blank" rel="noopener noreferrer">Download</a></strong>
+                            Invoice: <strong><Link href={invoiceUrl} target="_blank" rel="noopener noreferrer">Download</Link></strong>
                           </div>
                         </div>
                         

@@ -26,16 +26,16 @@ interface Product {
 }
 
 export default function ProductSearchPage() {
-  const router = useRouter();
+  
   const searchParams = useSearchParams();
   const q = useMemo(() => searchParams.get("q") || "", [searchParams]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState([]);
-  const { addToCart } = useCart();
+  
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
-  const [orderQuantity,setOrderQuantity] = useState("1");
+  
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [maxPrice, setMaxPrice] = useState(0);

@@ -1,20 +1,17 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import axios from "axios";
 import LoadingPage from "@/app/loading";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "recharts";
-import { Dialog, DialogContent, DialogTrigger, DialogFooter, DialogClose, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 interface Variant {
@@ -199,7 +196,7 @@ const SellerProcessOrderPage = () => {
     toast.success(data.message);
     fetchReturn();
   }
-  const initiateRefund = async(returnId:string,itemId:string, amount:string, status)=>{
+  const initiateRefund = async(returnId:string,itemId:string, amount:string, status:string)=>{
     const res = await fetch(`/api/seller/returns/${returnId}`,{
       method: "PUT",
       headers: { "Content-Type": "application/json" },

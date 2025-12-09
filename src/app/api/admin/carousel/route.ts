@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Carousel  from "@/models/Carousel";
 import formidable from "formidable";
 import { Readable } from "stream";
-import fs, { unlink, unlinkSync } from "fs";
+import fs from "fs";
 import path from "path";
 import  dbConnect  from "@/lib/dbConnect";
-import { ca } from "date-fns/locale";
 
 const uploadDir = "./public/carousel";
 if (!fs.existsSync(uploadDir)) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import Error from "next/error";
 
 export const config = {
   api: {
@@ -29,8 +30,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, urls });
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  } catch (error) {
+    //console.error(error);
+    return NextResponse.json({ success: false, error, status: 500 });
   }
 }

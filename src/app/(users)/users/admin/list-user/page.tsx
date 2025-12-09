@@ -3,7 +3,6 @@ import { DataTable } from '@/components/data-table'
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
@@ -38,7 +37,7 @@ const ListUsers = () => {
                 accessorKey: key,
                 header: "Avatar",
                 cell: ({ row }) => (
-                  <img
+                  <Image
                     src={row.original.image}
                     alt={row.original.name}
                     className="h-10 w-10 rounded-full object-cover"

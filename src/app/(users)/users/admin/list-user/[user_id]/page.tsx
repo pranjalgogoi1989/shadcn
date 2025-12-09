@@ -4,8 +4,6 @@ import {
   Card,
   CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,11 +25,7 @@ import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { set } from 'mongoose';
-import { is } from 'date-fns/locale';
-import { add } from 'date-fns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Check } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 
 interface IshippingAddress {
@@ -58,67 +52,64 @@ const UserProfile = () => {
   const [shippingAddress, setShippingAddress]= useState<IshippingAddress[]>([]);
   const [formShipping, setFormShipping] = useState({user_id: user_id, address_type:"Home", address_line_1:"" ,address_line_2:"" ,city:"" ,state:"" ,country:"" ,pincode:"", is_default:false});
   const [file, setFile] = useState<File | null>(null);
-  const [userId, setUserId] = useState(user_id);
+  
   const [openDialog1, setOpenDialog1] = useState(false);
   const [openDialog2, setOpenDialog2] = useState(false);
   const [openDialog3, setOpenDialog3] = useState(false);
   const [openDialog4, setOpenDialog4] = useState(false);
   const [openDialog5, setOpenDialog5] = useState(false);
 
-  async function getDeliveryAddress(){
-    const res1= await fetch(`/api/admin/users/profile/delivery-address?id=${user_id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-    });
-    const data1= await res1.json();
-    setShippingAddress(data1);
-  }
-   
+    const getDeliveryAddress = async ()=>{
+        const res1= await fetch(`/api/admin/users/profile/delivery-address?id=${user_id}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        const data1= await res1.json();
+        setShippingAddress(data1);
+    };
+    const getUserDetails = async()=> {
+        const res = await fetch(`/api/admin/users/profile?id=${user_id}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        
+        const data = await res.json();
+        const { social_media, address } = data;
+        
+        setFormSocial({
+            user_id,
+            facebook: social_media.facebook,
+            twitter: social_media.twitter,
+            linkedin: social_media.linkedin,
+            instagram: social_media.instagram
+        });
+        setUserData({
+            user_id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            phone: data.phone,
+            bio: data.bio,
+            photo: data.photo
+        });
+        setFormAddress({
+            user_id,
+            address_line_1: address.address_line_1,
+            address_line_2: address.address_line_2,
+            city: address.city,
+            state: address.state,
+            country: address.country,
+            pincode: address.pincode,
+        });
+    }
   useEffect(() => {
-    try {
-        async function getUserDetails() {
-            const res = await fetch(`/api/admin/users/profile?id=${user_id}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            
-
-            const data = await res.json();
-            const { social_media, photo, first_name, last_name, email, phone, bio, address } = data;
-            
-            setFormSocial({
-                user_id,
-                facebook: social_media.facebook,
-                twitter: social_media.twitter,
-                linkedin: social_media.linkedin,
-                instagram: social_media.instagram
-            });
-            setUserData({
-                user_id,
-                first_name: data.first_name,
-                last_name: data.last_name,
-                email: data.email,
-                phone: data.phone,
-                bio: data.bio,
-                photo: data.photo
-            });
-            setFormAddress({
-                user_id,
-                address_line_1: address.address_line_1,
-                address_line_2: address.address_line_2,
-                city: address.city,
-                state: address.state,
-                country: address.country,
-                pincode: address.pincode,
-            });
-        }
+    try{
         getUserDetails();
         getDeliveryAddress();
-        setUserId(user_id);
     }catch (error) {
       console.error("❌ Error fetching users:", error);
     }
-  },[]);
+  }, []);
 
     const handleChangeSocial = (e) => {
         setFormSocial({ ...formSocial, [e.target.name]: e.target.value });
@@ -136,15 +127,16 @@ const UserProfile = () => {
     const handleSocial = async (e) => {
         e.preventDefault();
         try {
-        const res = await fetch("/api/admin/users/profile/social", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formSocial),
-        });
-
-        const data = await res.json();
-        setOpenDialog1(false);
-        toast.success("Social Media Details Updated");
+            const res = await fetch("/api/admin/users/profile/social", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formSocial),
+            });
+            const data = await res.json();
+            if(data.success){
+                toast.success("Social Media Details Updated");
+            }
+            setOpenDialog1(false);
         } catch (error) {
         throw new Error("Error updating address details", error.toString());
         }
@@ -153,15 +145,16 @@ const UserProfile = () => {
     const handlePersonal = async(e) => {
         e.preventDefault();
         try {
-        const res = await fetch("/api/admin/users/profile/personal", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData),
-        });
-
-        const data = await res.json();
-        setOpenDialog3(false);
-        toast.success("Personal Details Updated");
+            const res = await fetch("/api/admin/users/profile/personal", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData),
+            });
+            const data = await res.json();
+            if(data.success){
+                toast.success("Personal Details Updated");
+            }
+            setOpenDialog3(false);
         } catch (error) {
         throw new Error("Error updating address details", error.toString());
         }
@@ -171,15 +164,17 @@ const UserProfile = () => {
     const handleAddress = async(e) => {
         e.preventDefault();
         try {
-        const res = await fetch("/api/admin/users/profile/address", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formAddress),
-        });
+            const res = await fetch("/api/admin/users/profile/address", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formAddress),
+            });
 
-        const data = await res.json();
-        setOpenDialog2(false);
-        toast.success("Address Details Updated");
+            const data = await res.json();
+            setOpenDialog2(false);
+            if(data.success){
+                toast.success("Address Details Updated");
+            }
         } catch (error) {
         throw new Error("Error updating address details", error.toString());
         }
@@ -193,11 +188,14 @@ const UserProfile = () => {
         formData.append("username", userId);
         const res = await fetch("/api/admin/users/profile/photo", {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: formData,
         });
         const data = await res.json();
-        setUserData({...userData, photo: data.data});
-        toast.success("Photo Updated");
+        if(data.success){
+            setUserData({...userData, photo: data.data});
+            toast.success("Photo Updated");
+        }
         setOpenDialog4(false);
     }
 

@@ -10,7 +10,7 @@ export async function GET(req, { params }) {
     await dbConnect();
     const seller = await Seller.findOne({ userId: new mongoose.Types.ObjectId(id)});
     if (!seller) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    console.log(seller);
+    //console.log(seller);
     return NextResponse.json({ success: true, seller:seller, userId: id });
 }
 

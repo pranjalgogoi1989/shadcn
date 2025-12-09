@@ -1,6 +1,6 @@
-import mongoose, {Document} from "mongoose";
+import mongoose from "mongoose";
 import OrderTracking from "./OrderTracking";
-import { de } from "date-fns/locale";
+//import { de } from "date-fns/locale";
 
 const OrderItemSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },

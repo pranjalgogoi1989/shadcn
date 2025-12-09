@@ -10,10 +10,10 @@ import { Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CategoryVariantPage() {
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [categoryName, setCategoryName] = useState<string>("");
-  const [fields, setFields] = useState<any[]>([]);
+  
+  const [fields, setFields] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   // 🟢 Fetch all categories
@@ -39,10 +39,10 @@ export default function CategoryVariantPage() {
         const data = await res.json();
         if (data.success && data.data) {
           setFields(data.data.variantFields);
-          setCategoryName(data.data.categoryName);
+          
         } else {
           setFields([]);
-          setCategoryName(categories.find((c) => c._id === selectedCategory)?.cat_name || "");
+          
         }
       } catch (err) {
         console.error(err);

@@ -1,17 +1,13 @@
 "use client";
 import React from 'react';
 import {useState, useEffect} from 'react';
-import LoadingPage from '@/app/loading';
-import {Dialog,DialogClose,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,} from "@/components/ui/dialog";
-import { Toaster } from '@/components/ui/sonner';
+
+import {Dialog,DialogClose,DialogContent,DialogTitle,DialogTrigger,} from "@/components/ui/dialog";
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DataTable } from '@/components/data-table'
-import { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
-import { Columns } from 'lucide-react';
 
 const BrandsPage = () => {
   const [brands, setBrands]= useState([]);
@@ -54,6 +50,19 @@ const BrandsPage = () => {
       getBrands();
       toast.success("Brand Information submitted successfully");
     }
+  }
+  if(loading){
+    return (
+      <div className="flex flex-1 flex-col">
+        <div className="@container/main flex flex-1 flex-col gap-2">
+          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+            <div className='flex place-content-center'>
+              <h1>Loading...</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
   return (
     <div className="flex flex-1 flex-col">

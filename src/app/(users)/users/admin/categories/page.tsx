@@ -6,19 +6,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { useRouter } from 'next/navigation';
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from 'sonner';
-import { redirect } from 'next/dist/server/api-utils';
 
 interface ICategories {
   _id: string;
@@ -28,7 +23,6 @@ interface ICategories {
   updatedAt: string;
 }
 const CategoriesPage = () => {
-  const router = useRouter();
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [category,setCategory] = useState({cat_name:"", parentId:""});
   const [openDialog, setOpenDialog] = useState(false);
@@ -88,13 +82,12 @@ const CategoriesPage = () => {
     const handleSubmit = async(e) => {
       e.preventDefault();
       try {
-        const res = await fetch("/api/admin/categories", {
+        await fetch("/api/admin/categories", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(category),
         });
 
-        const data = await res.json();
         setOpenDialog(false);
         fetchCategories();
         toast.success("Category Data Updated");

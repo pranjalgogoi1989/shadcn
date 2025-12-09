@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import CategoryVariant from "@/models/CategoryVariant";
-import Category from "@/models/Category";
 
 // ✅ GET: Fetch all or one category variant
 export async function GET(req: NextRequest) {

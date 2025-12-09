@@ -1,17 +1,13 @@
 "use client";
 
-import React,{ useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React,{ useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useParams, useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { useCart } from "@/lib/CartContext";
+import { useParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 
@@ -31,10 +27,8 @@ export default function ProductSearchPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState([]);
-  const { addToCart } = useCart();
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
-  const [orderQuantity,setOrderQuantity] = useState("1");
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -47,13 +41,6 @@ export default function ProductSearchPage() {
       const catId = await fetch(`/api/common/categories?slug=${category}`);
       const catData = await catId.json();
       const cat = catData.data._id;
-      const params = new URLSearchParams({
-        category: cat || "",
-        page: page.toString(),
-        brands: selectedBrands.join(","),
-        minPrice: priceRange[0].toString(),
-        maxPrice: priceRange[1].toString(),
-      });
       const res = await fetch(`/api/customer/products/search?q=${cat}&category=${cat}`);
       const data = await res.json();
       if (data.success){

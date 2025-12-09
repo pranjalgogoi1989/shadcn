@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 
-export async function requireSeller(req) {
+export async function requireSeller() {
   const session = await getServerSession();
   if (!session || !session.user) return { ok: false, status: 401, message: "Unauthorized" };
 

@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest){
   if (!token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  const now = new Date();
+  //const now = new Date();
   //console.log("serverTime: "+now.toISOString());
 
   const userRole =  token?.role;

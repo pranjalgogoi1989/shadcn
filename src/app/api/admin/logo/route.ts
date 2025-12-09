@@ -20,7 +20,7 @@ function toNodeRequest(req: NextRequest) {
   });
 }
 
-export async function GET(req:NextRequest) {
+export async function GET() {
   try {
     await dbConnect();
     const logo = await Logo.findOne({title: "logo"});

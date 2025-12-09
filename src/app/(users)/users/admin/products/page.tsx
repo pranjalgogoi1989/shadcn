@@ -1,16 +1,10 @@
 "use client";
-import { DataTable } from '@/components/data-table'
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { ColumnDef } from "@tanstack/react-table";
 import { Button } from '@/components/ui/button';
 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { IDimentions } from '@/models/Product';
-import { IReview } from '@/models/Review';
-import clsx from 'clsx';
 import {
   Avatar,
   AvatarFallback,

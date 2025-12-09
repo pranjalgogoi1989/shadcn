@@ -3,22 +3,16 @@ import React from 'react'
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 import { useState, useEffect } from 'react';
-
 
 interface ILogo {
   _id: string;
@@ -27,7 +21,6 @@ interface ILogo {
   createdAt: string;
   updatedAt: string;
 }
-
 
 const UserProfile = () => {
     const [file, setFile] = useState<File | null>(null);

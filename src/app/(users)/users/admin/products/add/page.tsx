@@ -7,15 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { set } from "mongoose";
 
 export default function AddProductPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [categoryId, setCategoryId] = useState("");
   const [variantFields, setVariantFields] = useState<any[]>([]);
   const [variants, setVariants] = useState<any[]>([]);
-  const [formData, setFormData] = useState<any>({});
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -153,12 +152,19 @@ export default function AddProductPage() {
             </div>
             <div>
               <Label>Category</Label>
-              <select className="border p-2 rounded w-full" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-                <option value="">Select Category</option>
-                {categories.map((c) => (
-                  <option key={c._id} value={c._id}>{c.cat_name}</option>
+              
+              <Select id="category" onValueChange={(e)=> setCategoryId(e.target.value)} value={categoryId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Choose Category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat._id} value={cat._id}>
+                    {cat.cat_name}
+                  </SelectItem>
                 ))}
-              </select>
+              </SelectContent>
+            </Select>
             </div>
           </div>
 
@@ -180,7 +186,7 @@ export default function AddProductPage() {
             <div className="flex gap-2 mt-2 flex-wrap">
 
               {product.mainImage.map((img: string, idx: number) => (
-                    <img
+                    <Image
                       key={idx}
                       src={img}
                       alt="variant-img"
@@ -282,7 +288,7 @@ export default function AddProductPage() {
                 />
                 <div className="flex gap-2 mt-2 flex-wrap">
                   {variant.images.map((img: string, idx: number) => (
-                    <img
+                    <Image
                       key={idx}
                       src={img}
                       alt="variant-img"

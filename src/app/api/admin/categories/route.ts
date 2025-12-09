@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Category from "@/models/Category";
 import  dbConnect  from "@/lib/dbConnect";
-import { ca } from "date-fns/locale";
 
 
 export async function GET() {
